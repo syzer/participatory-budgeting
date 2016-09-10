@@ -14,7 +14,7 @@ class ParticipatoryBudgeting extends Component {
         return (
             <View style={styles.container}>
                 <ProjectCards/>
-                <BudgetSummary/>
+                <BudgetSummary width={300} height={300}/>
             </View>
         )
     }

@@ -6,14 +6,18 @@ import {
     Image
 } from 'react-native'
 import Carousel from 'react-native-spring-carousel'
+// import Card from './ProjectCards'
 import State from './State'
+const {voted, skipped} = State.projects
 
-const width = 300
-const height = 300
-const voted = State.projects.voted
-
+//TODO componentWillMount
+//TODO use ProjectCard.Card
 export default class BudgetSummary extends Component {
-
+    constructor(props) {
+        super(props)
+        this.width = props.width
+        this.height = props.height
+    }
     onPressSlide(index) {
         console.log(index)
     }
@@ -21,8 +25,8 @@ export default class BudgetSummary extends Component {
     render() {
         return (
             <Carousel
-                width={width}
-                height={height}
+                width={this.width}
+                height={this.height}
                 pagerColor="#000"
                 activePagerColor="#ff0000"
                 pagerSize={10}
@@ -31,24 +35,34 @@ export default class BudgetSummary extends Component {
                 speed={2000}
                 onPress={this.onPressSlide}
             >
-
-                <View style={{width: width, height: 300, backgroundColor: '#aaa',}}>
-                    <Image style={styles.thumbnail} source={voted[0].image}/>
-                    <Text style={styles.text}>{this.props.caption}</Text>
-                </View>
-
-                <View style={{width: width, height: 300, backgroundColor: '#bbb',}}>
-                    <Text>Page 2</Text>
-                </View>
-                <View style={{width: width, height: 300, backgroundColor: '#ccc',}}>
-                    <Text>Page 3</Text>
-                </View>
+                {voted.map(card =>
+                    <View key={card.id}
+                          style={{
+                              width: this.width,
+                              height: 300,
+                              backgroundColor: '#aaa',
+                          }}>
+                        <Image style={styles.thumbnail} source={card.image}/>
+                        <Text style={styles.text}>{card.caption}</Text>
+                    </View>
+                ).concat(skipped.map(card =>
+                    <View key={card.id}
+                          style={{
+                              width: this.width,
+                              height: 300,
+                              backgroundColor: '#aaa',
+                          }}>
+                        <Image style={styles.thumbnail} source={card.image}/>
+                        <Text style={styles.text}>{card.caption}</Text>
+                    </View>
+                ))}
             </Carousel>
         )
     }
 }
 
 const styles = StyleSheet.create({
+    width: 300,
     card: {
         alignItems: 'center',
         borderRadius: 5,
