@@ -10,14 +10,13 @@ import {Card} from './ProjectCards'
 import State from './State'
 const {voted, skipped} = State.projects
 
-//TODO componentWillMount
-//TODO use ProjectCard.Card
 export default class BudgetSummary extends Component {
     constructor(props) {
         super(props)
         this.width = props.width
         this.height = props.height
     }
+
     onPressSlide(index) {
         console.log(index)
     }

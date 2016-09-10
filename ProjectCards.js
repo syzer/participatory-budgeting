@@ -68,21 +68,25 @@ const Cards = [
 ]
 
 export {Card, NoMoreCards}
-export default React.createClass({
-    getInitialState() {
-        return {
+export default class ProjectCards extends Component {
+    constructor(props) {
+        super(props)
+        this.state = {
             cards: Cards,
             outOfCards: false
         }
-    },
+    }
+
     handleYup (card) {
         console.log("yup", card)
         State.projects.voted.push(card)
-    },
+    }
+
     handleNope (card) {
         console.log("nope", card)
         State.projects.skipped.push(card)
-    },
+    }
+
     cardRemoved (index) {
         console.log(`The index is ${index}`)
 
@@ -102,7 +106,8 @@ export default React.createClass({
 
         }
 
-    },
+    }
+
     render() {
         return (
             <SwipeCards
@@ -120,7 +125,7 @@ export default React.createClass({
             />
         )
     }
-})
+}
 
 const styles = StyleSheet.create({
     card: {
