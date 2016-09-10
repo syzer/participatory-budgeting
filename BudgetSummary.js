@@ -8,6 +8,8 @@ import {
 import Carousel from 'react-native-spring-carousel'
 import {Card} from './ProjectCards'
 import State from './State'
+import {RetryButton, ShareButton} from './Buttons'
+
 const {voted, skipped} = State.projects
 
 export default class BudgetSummary extends Component {
@@ -23,23 +25,27 @@ export default class BudgetSummary extends Component {
 
     render() {
         return (
-            <Carousel
-                width={this.width}
-                height={this.height}
-                pagerColor="#000"
-                activePagerColor="#ff0000"
-                pagerSize={10}
-                pagerOffset={10}
-                pagerMargin={2}
-                speed={2000}
-                onPress={this.onPressSlide}
-            >
-                {voted.map(card =>
-                    <Card key={card.id} imageGood={card.imageGood} {...card}/>
-                ).concat(skipped.map(card =>
-                    <Card key={card.id} image={card.image} {...card}/>
-                ))}
-            </Carousel>
+            <View>
+                <Carousel
+                    width={this.width}
+                    height={this.height}
+                    pagerColor="#000"
+                    activePagerColor="#ff0000"
+                    pagerSize={10}
+                    pagerOffset={10}
+                    pagerMargin={2}
+                    speed={2000}
+                    onPress={this.onPressSlide}
+                >
+                    {voted.map(card =>
+                        <Card key={card.id} imageGood={card.imageGood} {...card}/>
+                    ).concat(skipped.map(card =>
+                        <Card key={card.id} image={card.image} {...card}/>
+                    ))}
+                </Carousel>
+                <RetryButton/>
+                <ShareButton/>
+            </View>
         )
     }
 }
