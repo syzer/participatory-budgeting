@@ -35,25 +35,9 @@ export default class BudgetSummary extends Component {
                 onPress={this.onPressSlide}
             >
                 {voted.map(card =>
-                    <View key={card.id}
-                          style={{
-                              width: this.width,
-                              height: 300,
-                              backgroundColor: '#aaa',
-                          }}>
-                        <Image style={styles.thumbnail} source={card.image}/>
-                        <Text style={styles.text}>{card.caption}</Text>
-                    </View>
+                    <Card key={card.id} {...card}/>
                 ).concat(skipped.map(card =>
-                    <View key={card.id}
-                          style={{
-                              width: this.width,
-                              height: 300,
-                              backgroundColor: '#aaa',
-                          }}>
-                        <Image style={styles.thumbnail} source={card.image}/>
-                        <Text style={styles.text}>{card.caption}</Text>
-                    </View>
+                    <Card key={card.id} {...card}/>
                 ))}
             </Carousel>
         )

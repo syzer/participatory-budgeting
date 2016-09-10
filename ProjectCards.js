@@ -11,7 +11,7 @@ import State from './State'
 class Card extends Component {
     render() {
         return (
-            <View key={this.props.key || Math.random()} style={styles.card}>
+            <View key={this.props.id || Math.random()} style={styles.card}>
                 <Image style={styles.thumbnail} source={this.props.image}/>
                 <Text style={styles.text}>{this.props.caption}</Text>
             </View>
@@ -69,6 +69,7 @@ const Cards = [
 
 export {Card, NoMoreCards}
 export default class ProjectCards extends Component {
+
     constructor(props) {
         super(props)
         this.state = {
