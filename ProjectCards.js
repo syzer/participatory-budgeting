@@ -13,7 +13,7 @@ let Card = React.createClass({
             <View style={styles.card}>
                 <Image style={styles.thumbnail} source={this.props.image}/>
                 {/*<Image style={styles.thumbnail} source={{uri: this.props.image}}/>*/}
-                <Text style={styles.text}>This is card {this.props.name}</Text>
+                <Text style={styles.text}>{this.props.caption}</Text>
             </View>
         )
     }
@@ -30,7 +30,11 @@ let NoMoreCards = React.createClass({
 })
 
 const Cards = [
-    {name: 'Education Projects are awesome!!', image: require('./img/EducationProjectAfter.jpg')},
+    {caption: 'Education Projects are awesome!!', image: require('./img/EducationProjectBefore.jpg')},
+    {caption: 'Education Projects are awesome!!', image: require('./img/FootballProjectBefore.jpg')},
+    {caption: 'Education Projects are awesome!!', image: require('./img/HealthProjectBefore.jpg')},
+    {caption: 'Education Projects are awesome!!', image: require('./img/HousingProjectBefore.jpg')},
+    {caption: 'Education Projects are awesome!!', image: require('./img/RoadProjectBefore.jpg')},
 ]
 
 const Cards2 = [
