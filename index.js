@@ -14,8 +14,8 @@ class ParticipatoryBudgeting extends Component {
     render() {
         return <Router>
             <Scene key="root">
-                <Scene key="home" component={ProjectCards} title="Spend budget"/>
-                <Scene key="login" component={BudgetSummary} title="Budget Outcome"/>
+                <Scene key="budgetSpend" component={ProjectCards} title="Spend budget"/>
+                <Scene key="outcome" component={BudgetSummary} title="Budget Outcome"/>
             </Scene>
         </Router>
     }

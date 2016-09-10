@@ -7,11 +7,12 @@ import {
 } from 'react-native'
 import SwipeCards from 'react-native-swipe-cards'
 import State from './State'
+import {Actions} from 'react-native-router-flux'
 
 class Card extends Component {
     render() {
         return (
-            <View key={this.props.id || Math.random()} style={styles.card}>
+            <View key={this.props.id} style={styles.card}>
                 <Image style={styles.thumbnail} source={this.props.image}/>
                 <Text style={styles.text}>{this.props.caption}</Text>
             </View>
@@ -93,6 +94,8 @@ export default class ProjectCards extends Component {
 
             if (!this.state.outOfCards) {
                 console.log(`Out of cards`)
+
+                Actions.outcome()
 
                 this.setState({
                     cards: this.state.cards,
