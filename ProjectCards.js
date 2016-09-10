@@ -17,6 +17,12 @@ const cardStyles = {
         elevation: 2,
         width: 320
     },
+    liftedDown: {
+        backgroundColor: '#8BC34A'
+    },
+    liftedUp: {
+        backgroundColor: '#D50000'
+    },
     title: {
         padding: 16,
         fontSize: 24,
@@ -40,8 +46,21 @@ const cardStyles = {
 
 class Card extends Component {
     render() {
+        const outerStyles = [cardStyles.card];
+        if (this.props.isLifted) {
+            switch (this.props.dragDirection) {
+                case 'up':
+                    outerStyles.push(cardStyles.liftedUp);
+                    break;
+                case 'down':
+                    outerStyles.push(cardStyles.liftedDown);
+                    break;
+                default:
+                    break;
+            }
+        }
         return (
-            <View style={cardStyles.card}>
+            <View style={outerStyles}>
                 <Text style={cardStyles.title}>
                     {this.props.title}
                 </Text>
@@ -111,7 +130,8 @@ export default class ProjectCards extends Component {
         this.state = {
             currentCard: allCards[4],
             pan: new Animated.ValueXY(),
-            lifted: false
+            lifted: false,
+            direction: null
         };
         this.cardRemoved = this.cardRemoved.bind(this);
     }
@@ -127,7 +147,25 @@ export default class ProjectCards extends Component {
             onPanResponderMove: Animated.event([null, {
                 dx: this.state.pan.x,
                 dy: this.state.pan.y
-            }]),
+            }], {
+                listener: (evt) => {
+                    const verticalDist = evt.nativeEvent.pageY -
+                        evt.nativeEvent.locationY;
+                    if (verticalDist > 200) {
+                        this.setState({
+                            direction: 'down'
+                        });
+                    } else if (verticalDist < 0) {
+                        this.setState({
+                            direction: 'up'
+                        });
+                    } else {
+                        this.setState({
+                            direction: null
+                        });
+                    }
+                }
+            }),
             onPanResponderRelease: (e, gesture) => {
                 Animated.spring(
                     this.state.pan,
@@ -172,13 +210,13 @@ export default class ProjectCards extends Component {
                     {...this.panResponder.panHandlers}
                     style={this.state.pan.getLayout()}>
                     <Card {...this.state.currentCard}
-                          isLifted={this.state.lifted}/>
+                          isLifted={this.state.lifted}
+                          dragDirection={this.state.direction}/>
                 </Animated.View>
                 <View style={{flex: 1}}/>
                 <Text style={styles.selectedLabel}>
                     Selected projects
                 </Text>
-                {this.state.lifted ? <Text>Lifted</Text> : null}
                 <View style={styles.dropContainer}>
                     <View style={styles.dropZone}></View>
                     <View style={styles.dropZone}></View>
