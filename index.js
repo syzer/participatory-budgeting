@@ -4,31 +4,47 @@ import {
     StyleSheet,
     Text,
     View,
-    Image
+    Image,
+    StatusBar,
+    Navigator
 } from 'react-native'
 import ProjectCards from './ProjectCards'
 import BudgetSummary from './BudgetSummary'
-import {Scene, Router} from 'react-native-router-flux'
+
+const routes = [
+    {component: <ProjectCards/>, title: 'Project selection', index: 0},
+    {component: <BudgetSummary/>, title: 'Summary', index: 1}
+];
 
 class ParticipatoryBudgeting extends Component {
     render() {
-        return <Router>
-            <Scene key="root">
-                <Scene key="budgetSpend" component={ProjectCards} title="Spend budget"/>
-                <Scene key="outcome" component={BudgetSummary} title="Budget Outcome"/>
-            </Scene>
-        </Router>
+        return (
+            <Navigator
+                initialRoute={routes[0]}
+                initialRouteStack={routes}
+                renderScene={(route, navigator) => {
+                    return (<View style={styles.mainContainer}>
+                        {route.component}
+                    </View>);
+                }}
+                navigationBar={
+                    <Navigator.NavigationBar
+                        routeMapper={{
+                            LeftButton: () => null,
+                            RightButton: () => null,
+                            Title: route => <Text>{route.title}</Text>
+                        }}
+                    />}
+            />);
     }
 }
 
-// TODO use flex
 const styles = StyleSheet.create({
-    container: {
+    mainContainer: {
         flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
-        fontSize: 20,
-    },
-})
+        paddingTop: Navigator.NavigationBar.Styles.General.NavBarHeight
+    }
+});
 
-AppRegistry.registerComponent('ParticipatoryBudgeting', () => ParticipatoryBudgeting)
+AppRegistry.registerComponent('ParticipatoryBudgeting',
+    () => ParticipatoryBudgeting);
