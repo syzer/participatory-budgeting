@@ -9,6 +9,10 @@ import SwipeCards from 'react-native-swipe-cards'
 import State from './State'
 
 class Card extends Component {
+    constructor(props) {
+        super(props)
+        console.log(props)
+    }
     render() {
         return (
             <View key={this.props.id || Math.random()} style={styles.card}>
@@ -34,36 +38,30 @@ const Cards = [
         id: 0,
         caption: 'Education Projects are awesome!!',
         image: require('./img/EducationProjectBefore.jpg'),
-        imageBad: './img/EducationProjectAfter.jpg',
-        imageGood: './img/EducationProjectBefore.jpg'
+        imageGood: require('./img/EducationProjectAfter.jpg'),
     },
     {
         id: 1,
         caption: 'Football is booring, play chess!!',
         image: require('./img/FootballProjectBefore.jpg'),
-        imageBad: './img/FootballProjectAfter.jpg',
-        imageGood: './img/FootballProjectBefore.jpg'
+        imageGood: require('./img/FootballProjectAfter.jpg'),
     },
     {
         id: 2,
         caption: 'Education Projects are awesome!!',
         image: require('./img/HealthProjectBefore.jpg'),
-        imageBad: './img/HealthProjectAfter.jpg',
-        imageGood: './img/HealthProjectBefore.jpg'
     },
     {
         id: 3,
         caption: 'Hauses everywhere',
         image: require('./img/HousingProjectBefore.jpg'),
-        imageGood: './img/HousingProjectBefore.jpg',
-        imageBad: './img/HousingProjectBefore.jpg'
+        imageGood: require('./img/HousingProjectAfter.jpg'),
     },
     {
         id: 4,
         caption: 'Roads everywhere',
         image: require('./img/RoadProjectBefore.jpg'),
-        imageBad: './img/RoadProjectAfter.jpg',
-        imageGood: './img/RoadProjectBefore.jpg'
+        imageGood: require('./img/RoadProjectAfter.jpg'),
     },
 ]
 
@@ -76,6 +74,7 @@ export default class ProjectCards extends Component {
             cards: Cards,
             outOfCards: false
         }
+        this.cardRemoved = this.cardRemoved.bind(this)
     }
 
     handleYup (card) {

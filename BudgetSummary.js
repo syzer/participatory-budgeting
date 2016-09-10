@@ -35,9 +35,9 @@ export default class BudgetSummary extends Component {
                 onPress={this.onPressSlide}
             >
                 {voted.map(card =>
-                    <Card key={card.id} {...card}/>
+                    <Card key={card.id} imageGood={card.imageGood} {...card}/>
                 ).concat(skipped.map(card =>
-                    <Card key={card.id} {...card}/>
+                    <Card key={card.id} image={card.image} {...card}/>
                 ))}
             </Carousel>
         )
