@@ -174,7 +174,7 @@ export default class ProjectCards extends Component {
                 this.isTransitioning = true;
                 Animated.spring(
                     this.state.pan,
-                    {toValue: {x: 0, y: 0}}
+                    {toValue: {x: 0, y: 0}, velocity: 5, bounciness: 0}
                 ).start(() => {
                     this.isTransitioning = false;
                     if (nextCard) {
