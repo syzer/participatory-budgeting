@@ -45,7 +45,6 @@ export default class BudgetSummary extends Component {
 }
 
 const styles = StyleSheet.create({
-    width: 300,
     card: {
         alignItems: 'center',
         borderRadius: 5,
