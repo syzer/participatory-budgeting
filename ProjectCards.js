@@ -59,13 +59,17 @@ class Card extends Component {
                     break;
             }
         }
+        let imageSrc = this.props.imageGood;
+        if (this.props.isLifted && this.props.dragDirection == 'up') {
+            imageSrc = this.props.image;
+        }
         return (
             <View style={outerStyles}>
                 <Text style={cardStyles.title}>
                     {this.props.title}
                 </Text>
                 <Image style={cardStyles.image}
-                       source={this.props.imageGood}/>
+                       source={imageSrc}/>
                 <Text style={cardStyles.description}>
                     {this.props.description}
                 </Text>
@@ -128,17 +132,18 @@ export default class ProjectCards extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentCard: allCards[4],
+            currentCardIndex: 4,
             pan: new Animated.ValueXY(),
             lifted: false,
             direction: null
         };
         this.cardRemoved = this.cardRemoved.bind(this);
+        this.isTransitioning = false;
     }
 
     componentWillMount() {
         this.panResponder = PanResponder.create({
-            onStartShouldSetPanResponder: () => true,
+            onStartShouldSetPanResponder: () => !this.isTransitioning,
             onPanResponderStart: () => {
                 this.setState({
                     lifted: true
@@ -148,14 +153,12 @@ export default class ProjectCards extends Component {
                 dx: this.state.pan.x,
                 dy: this.state.pan.y
             }], {
-                listener: (evt) => {
-                    const verticalDist = evt.nativeEvent.pageY -
-                        evt.nativeEvent.locationY;
-                    if (verticalDist > 200) {
+                listener: (_, gesture) => {
+                    if (gesture.dy > 100) {
                         this.setState({
                             direction: 'down'
                         });
-                    } else if (verticalDist < 0) {
+                    } else if (gesture.dy < -100) {
                         this.setState({
                             direction: 'up'
                         });
@@ -167,13 +170,26 @@ export default class ProjectCards extends Component {
                 }
             }),
             onPanResponderRelease: (e, gesture) => {
+                const nextCard = this.state.direction == 'up';
+                this.isTransitioning = true;
                 Animated.spring(
                     this.state.pan,
                     {toValue: {x: 0, y: 0}}
-                ).start();
-                this.setState({
-                    lifted: false
-                });
+                ).start(() => {
+                    this.isTransitioning = false;
+                    if (nextCard) {
+                        this.setState({
+                            lifted: false,
+                            direction: null,
+                            currentCardIndex: (this.state.currentCardIndex + 1) % 5
+                        });
+                    } else {
+                        this.setState({
+                            lifted: false,
+                            direction: null
+                        })
+                    }
+                })
             }
         });
     }
@@ -206,10 +222,11 @@ export default class ProjectCards extends Component {
     render() {
         return (
             <View style={styles.projectContainer}>
+                <View style={{flex: 1}}/>
                 <Animated.View
                     {...this.panResponder.panHandlers}
                     style={this.state.pan.getLayout()}>
-                    <Card {...this.state.currentCard}
+                    <Card {...allCards[this.state.currentCardIndex]}
                           isLifted={this.state.lifted}
                           dragDirection={this.state.direction}/>
                 </Animated.View>
@@ -230,6 +247,7 @@ const styles = StyleSheet.create({
     projectContainer: {
         flexDirection: 'column',
         flex: 1,
+        justifyContent: 'center',
         alignItems: 'center',
         paddingLeft: 8,
         paddingRight: 8
