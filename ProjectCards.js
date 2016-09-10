@@ -13,7 +13,11 @@ class Card extends Component {
     render() {
         return (
             <View key={this.props.id} style={styles.card}>
-                <Image style={styles.thumbnail} source={this.props.imageGood}/>
+                <Image style={styles.thumbnail}
+                       source={"good" === this.props.outcome ?
+                           this.props.imageGood
+                           : this.props.image
+                       }/>
                 <Text style={styles.text}>{this.props.caption}</Text>
             </View>
         )
@@ -75,17 +79,17 @@ export default class ProjectCards extends Component {
         this.cardRemoved = this.cardRemoved.bind(this)
     }
 
-    handleYup (card) {
+    handleYup(card) {
         console.log("yup", card)
         State.projects.voted.push(card)
     }
 
-    handleNope (card) {
+    handleNope(card) {
         console.log("nope", card)
         State.projects.skipped.push(card)
     }
 
-    cardRemoved (index) {
+    cardRemoved(index) {
         console.log(`The index is ${index}`)
 
         let cardsInDeck = 5 - index - 1
