@@ -1,4 +1,4 @@
-import React from 'react'
+import React, {Component} from 'react'
 import {
     StyleSheet,
     Text,
@@ -6,20 +6,20 @@ import {
     Image
 } from 'react-native'
 import SwipeCards from 'react-native-swipe-cards'
+import State from './State'
 
-let Card = React.createClass({
+class Card extends Component {
     render() {
         return (
             <View style={styles.card}>
                 <Image style={styles.thumbnail} source={this.props.image}/>
-                {/*<Image style={styles.thumbnail} source={{uri: this.props.image}}/>*/}
                 <Text style={styles.text}>{this.props.caption}</Text>
             </View>
         )
     }
-})
+}
 
-let NoMoreCards = React.createClass({
+class NoMoreCards extends Component {
     render() {
         return (
             <View style={styles.noMoreCards}>
@@ -27,21 +27,49 @@ let NoMoreCards = React.createClass({
             </View>
         )
     }
-})
+}
 
 const Cards = [
-    {caption: 'Education Projects are awesome!!', image: require('./img/EducationProjectBefore.jpg')},
-    {caption: 'Education Projects are awesome!!', image: require('./img/FootballProjectBefore.jpg')},
-    {caption: 'Education Projects are awesome!!', image: require('./img/HealthProjectBefore.jpg')},
-    {caption: 'Education Projects are awesome!!', image: require('./img/HousingProjectBefore.jpg')},
-    {caption: 'Education Projects are awesome!!', image: require('./img/RoadProjectBefore.jpg')},
+    {
+        id: 0,
+        caption: 'Education Projects are awesome!!',
+        image: require('./img/EducationProjectBefore.jpg'),
+        imageBad: './img/EducationProjectAfter.jpg',
+        imageGood: './img/EducationProjectBefore.jpg'
+    },
+    {
+        id: 1,
+        caption: 'Football is booring, play chess!!',
+        image: require('./img/FootballProjectBefore.jpg'),
+        imageBad: './img/FootballProjectAfter.jpg',
+        imageGood: './img/FootballProjectBefore.jpg'
+    },
+    {
+        id: 2,
+        caption: 'Education Projects are awesome!!',
+        image: require('./img/HealthProjectBefore.jpg'),
+        imageBad: './img/HealthProjectAfter.jpg',
+        imageGood: './img/HealthProjectBefore.jpg'
+    },
+    {
+        id: 3,
+        caption: 'Hauses everywhere',
+        image: require('./img/HousingProjectBefore.jpg'),
+        imageGood: './img/HousingProjectBefore.jpg',
+        imageBad: './img/HousingProjectBefore.jpg'
+    },
+    {
+        id: 4,
+        caption: 'Roads everywhere',
+        image: require('./img/RoadProjectBefore.jpg'),
+        imageBad: './img/RoadProjectAfter.jpg',
+        imageGood: './img/RoadProjectBefore.jpg'
+    },
 ]
 
 const Cards2 = [
     // {name: '10', image: 'https://media.giphy.com/media/12b3E4U9aSndxC/giphy.gif'},
-    // {name: '11', image: 'https://media4.giphy.com/media/6csVEPEmHWhWg/200.gif'},
-    // {name: '12', image: 'https://media4.giphy.com/media/AA69fOAMCPa4o/200.gif'},
-    // {name: '13', image: 'https://media.giphy.com/media/OVHFny0I7njuU/giphy.gif'},
+    // {name: '11', image: 'https://media4.giphy.com/media/AA69fOAMCPa4o/200.gif'},
 ]
 
 export default React.createClass({
@@ -52,10 +80,12 @@ export default React.createClass({
         }
     },
     handleYup (card) {
-        console.log("yup")
+        console.log("yup", card)
+        State.projects.voted.push(card)
     },
     handleNope (card) {
-        console.log("nope")
+        console.log("nope", card)
+        State.projects.skipped.push(card)
     },
     cardRemoved (index) {
         console.log(`The index is ${index}`)

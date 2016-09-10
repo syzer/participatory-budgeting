@@ -8,14 +8,13 @@ import {
 } from 'react-native'
 import ProjectCards from './ProjectCards'
 import BudgetSummary from './BudgetSummary'
-import State from './State'
 
 class ParticipatoryBudgeting extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Image source={require('./img/EducationProjectAfter.jpg')}/>
                 <ProjectCards/>
+                <BudgetSummary/>
             </View>
         )
     }
