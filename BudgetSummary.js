@@ -6,7 +6,7 @@ import {
     Image
 } from 'react-native'
 import Carousel from 'react-native-spring-carousel'
-// import Card from './ProjectCards'
+import {Card} from './ProjectCards'
 import State from './State'
 const {voted, skipped} = State.projects
 

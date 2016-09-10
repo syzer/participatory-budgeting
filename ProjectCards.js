@@ -11,7 +11,7 @@ import State from './State'
 class Card extends Component {
     render() {
         return (
-            <View style={styles.card}>
+            <View key={this.props.key || Math.random()} style={styles.card}>
                 <Image style={styles.thumbnail} source={this.props.image}/>
                 <Text style={styles.text}>{this.props.caption}</Text>
             </View>
@@ -67,11 +67,7 @@ const Cards = [
     },
 ]
 
-const Cards2 = [
-    // {name: '10', image: 'https://media.giphy.com/media/12b3E4U9aSndxC/giphy.gif'},
-    // {name: '11', image: 'https://media4.giphy.com/media/AA69fOAMCPa4o/200.gif'},
-]
-
+export {Card, NoMoreCards}
 export default React.createClass({
     getInitialState() {
         return {
@@ -96,10 +92,10 @@ export default React.createClass({
             console.log(`There are only ${this.state.cards.length - index - 1} cards left.`)
 
             if (!this.state.outOfCards) {
-                console.log(`Adding ${Cards2.length} more cards`)
+                console.log(`Out of cards`)
 
                 this.setState({
-                    cards: this.state.cards.concat(Cards2),
+                    cards: this.state.cards,
                     outOfCards: true
                 })
             }
