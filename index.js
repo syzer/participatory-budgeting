@@ -13,6 +13,7 @@ class ParticipatoryBudgeting extends Component {
         return (
             <View style={styles.container}>
                 <Image source={require('./img/EducationProjectAfter.jpg')}/>
+                <ProjectCards/>
             </View>
         )
     }
