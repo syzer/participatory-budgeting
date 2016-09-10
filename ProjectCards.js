@@ -13,7 +13,7 @@ class Card extends Component {
     render() {
         return (
             <View key={this.props.id} style={styles.card}>
-                <Image style={styles.thumbnail} source={this.props.image}/>
+                <Image style={styles.thumbnail} source={this.props.imageGood}/>
                 <Text style={styles.text}>{this.props.caption}</Text>
             </View>
         )
@@ -45,8 +45,9 @@ const Cards = [
     },
     {
         id: 2,
-        caption: 'Education Projects are awesome!!',
+        caption: 'HEALTH CARES',
         image: require('./img/HealthProjectBefore.jpg'),
+        imageGood: require('./img/HealthProjectAfter.jpg'),
     },
     {
         id: 3,
