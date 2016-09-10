@@ -7,6 +7,8 @@ import {
     Image
 } from 'react-native'
 import ProjectCards from './ProjectCards'
+import BudgetSummary from './BudgetSummary'
+import State from './State'
 
 class ParticipatoryBudgeting extends Component {
     render() {
