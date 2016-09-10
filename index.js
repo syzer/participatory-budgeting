@@ -9,24 +9,16 @@ import {
     AppRegistry,
     StyleSheet,
     Text,
-    View
+    View,
+    Image
 } from 'react-native'
+import ProjectCards from './ProjectCards'
 
 class ParticipatoryBudgeting extends Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text style={styles.welcome}>
-                    Welcome to React Native!
-                </Text>
-                <Text style={styles.instructions}>
-                    To get started, edit index.ios.js
-                </Text>
-                <Text style={styles.instructions}>
-                    Press Cmd+R to reload,{'\n'}
-                    Cmd+D or shake for dev menu awasome
-                </Text>
-                <Image source={require('./my-icon.png')}/>
+                <Image source={require('./img/EducationProjectAfter.jpg')}/>
             </View>
         )
     }
