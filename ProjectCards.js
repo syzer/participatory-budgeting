@@ -87,24 +87,16 @@ export default class ProjectCards extends Component {
     cardRemoved (index) {
         console.log(`The index is ${index}`)
 
-        let CARD_REFRESH_LIMIT = 3
-
-        if (this.state.cards.length - index <= CARD_REFRESH_LIMIT + 1) {
-            console.log(`There are only ${this.state.cards.length - index - 1} cards left.`)
-
+        let cardsInDeck = 5 - index - 1
+        if (!cardsInDeck) {
             if (!this.state.outOfCards) {
-                console.log(`Out of cards`)
-
-                Actions.outcome()
-
                 this.setState({
                     cards: this.state.cards,
                     outOfCards: true
                 })
             }
-
+            Actions.outcome()
         }
-
     }
 
     render() {
