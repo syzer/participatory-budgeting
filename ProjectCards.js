@@ -9,10 +9,6 @@ import SwipeCards from 'react-native-swipe-cards'
 import State from './State'
 
 class Card extends Component {
-    constructor(props) {
-        super(props)
-        console.log(props)
-    }
     render() {
         return (
             <View key={this.props.id || Math.random()} style={styles.card}>

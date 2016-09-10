@@ -8,6 +8,7 @@
   "dependencies": {
     "react": "15.3.1",
     "react-native": "0.33.0",
+    "react-native-router-flux": "^3.35.0",
     "react-native-spring-carousel": "^0.3.4",
     "react-native-swipe-cards": "0.0.9"
   }

@@ -13,8 +13,8 @@ const {voted, skipped} = State.projects
 export default class BudgetSummary extends Component {
     constructor(props) {
         super(props)
-        this.width = props.width
-        this.height = props.height
+        this.width = props.width || 300
+        this.height = props.height || 300
     }
 
     onPressSlide(index) {
