@@ -15,7 +15,7 @@ const {voted, skipped} = State.projects
 export default class BudgetSummary extends Component {
     constructor(props) {
         super(props)
-        this.width = props.width || 300
+        this.width = props.width || 400
         this.height = props.height || 300
     }
 
@@ -25,7 +25,7 @@ export default class BudgetSummary extends Component {
 
     render() {
         return (
-            <View>
+            <View style={styles.container}>
                 <Carousel
                     width={this.width}
                     height={this.height}
@@ -51,29 +51,8 @@ export default class BudgetSummary extends Component {
 }
 
 const styles = StyleSheet.create({
-    width: 300,
-    card: {
-        alignItems: 'center',
-        borderRadius: 5,
-        overflow: 'hidden',
-        borderColor: 'grey',
-        backgroundColor: 'white',
-        borderWidth: 1,
-        elevation: 1,
-    },
-    thumbnail: {
+    container: {
         flex: 1,
-        width: 300,
-        height: 300,
-    },
-    text: {
-        fontSize: 20,
-        paddingTop: 10,
-        paddingBottom: 10
-    },
-    noMoreCards: {
-        flex: 1,
-        justifyContent: 'center',
         alignItems: 'center',
-    }
+    },
 })
