@@ -11,15 +11,18 @@ import ThumbnailCard from './ThumbnailCard'
 
 export default class BudgetSummary extends Component {
     render() {
-        const acceptedCost = this.props.votes.accepted.reduce((prevVal, card) => prevVal + card.cost, 0)
-        const rejectedCost = this.props.votes.rejected.reduce((prevVal, card) => prevVal + card.cost, 0)
+        // buggy but for now ok
+        const toCurrency = (num) => String(num).split('000').join('0.00')
+
+        const acceptedCost = toCurrency(this.props.votes.accepted.reduce((prevVal, card) => prevVal + card.cost, 0))
+        const rejectedCost = toCurrency(this.props.votes.rejected.reduce((prevVal, card) => prevVal + card.cost, 0))
+
         return (
             <View style={styles.budgetContainer}>
                 <View>
                     <Text style={styles.rowLabel}>Selected Projects</Text>
                     <Text style={styles.rowSubLabel}>
-                        Total cost:
-                        USD$ {acceptedCost}
+                        Total cost: $ {acceptedCost}
                     </Text>
                     <ScrollView horizontal={true}>
                         {this.props.votes.accepted.map(card =>
@@ -32,7 +35,7 @@ export default class BudgetSummary extends Component {
                 <View>
                     <Text style={styles.rowLabel}>Rejected Projects</Text>
                     <Text style={styles.rowSubLabel}>
-                        Total savings: USD$ {rejectedCost}
+                        Total savings: $ {rejectedCost}
                     </Text>
                     <ScrollView horizontal={true}>
                         {this.props.votes.rejected.map(card =>

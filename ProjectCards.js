@@ -246,7 +246,7 @@ class ProjectCards extends Component {
             <View style={styles.projectContainer}>
                 <View style={styles.costHeader}>
                     <Text style={styles.costLabel}>
-                        Expected cost: USD${this.state.totalCost}
+                        Expected cost: ${this.state.totalCost}
                     </Text>
                 </View>
                 <View style={{flex: 1}}/>
