@@ -26,7 +26,7 @@ class ThumbnailCard extends Component {
         const imageStyle = this.props.imageStyle ? this.props.imageStyle : thumbnailStyles.image;
         return (
             <View style={containerStyle}>
-                <Text>{this.props.shortTitle}</Text>
+                <Text numberOfLines={1} adjustsFontSizeToFit={true}>{this.props.shortTitle}</Text>
                 <Image
                     style={imageStyle}
                     source={image}/>
