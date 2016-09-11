@@ -73,7 +73,7 @@ class ParticipatoryBudgeting extends Component {
         this.currentIndex++;
         const onRetry = () => {
             this.currentIndex++;
-            const sortedCards = _.shuffle(allCards.slice(1));
+            const sortedCards = _.shuffle(allCards);
             this.getNavigator().push({
                 component: <ProjectCards
                     cards={sortedCards}
@@ -91,7 +91,7 @@ class ParticipatoryBudgeting extends Component {
     }
 
     render() {
-        const sortedCards = _.shuffle(allCards.slice(1));
+        const sortedCards = _.shuffle(allCards);
         return (
             <Navigator
                 initialRoute={{
