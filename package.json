@@ -11,6 +11,7 @@
     "react-native-button": "^1.7.0",
     "react-native-router-flux": "^3.35.0",
     "react-native-spring-carousel": "^0.3.4",
-    "react-native-swipe-cards": "0.0.9"
+    "react-native-swipe-cards": "0.0.9",
+    "lodash": "latest"
   }
 }
