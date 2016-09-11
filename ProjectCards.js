@@ -60,9 +60,12 @@ export class Card extends Component {
                     break
             }
         }
-        let imageSrc = this.props.imageGood
-        if (this.props.isLifted && this.props.dragDirection[0] == 'up') {
-            imageSrc = this.props.image
+        let imageSrc = this.props.image
+        if (this.props.isLifted && this.props.dragDirection[0] === 'up') {
+            imageSrc = this.props.imageBad
+        }
+        if (this.props.isLifted && this.props.dragDirection[0] === 'down') {
+            imageSrc = this.props.imageGood
         }
         return (
             <View style={outerStyles}>
