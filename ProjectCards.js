@@ -1,4 +1,4 @@
-import React, {Component} from 'react'
+import React, {Component} from "react";
 import {
     StyleSheet,
     Text,
@@ -6,7 +6,8 @@ import {
     Image,
     Animated,
     PanResponder
-} from 'react-native'
+} from "react-native";
+import ThumbnailCard from "./ThumbnailCard";
 
 const cardStyles = {
     card: {
@@ -43,7 +44,7 @@ const cardStyles = {
     }
 };
 
-class Card extends Component {
+export class Card extends Component {
     render() {
         const outerStyles = [cardStyles.card];
         if (this.props.isLifted) {
@@ -72,32 +73,6 @@ class Card extends Component {
                 <Text style={cardStyles.description}>
                     {this.props.description}
                 </Text>
-            </View>
-        );
-    }
-}
-
-const thumbnailStyles = StyleSheet.create({
-    container: {
-        flex: 1,
-        padding: 8
-    },
-    image: {
-        flex: 1,
-        height: 60,
-        width: 60,
-        alignSelf: 'center'
-    }
-});
-
-class ThumbnailCard extends Component {
-    render() {
-        return (
-            <View style={thumbnailStyles.container}>
-                <Text>{this.props.shortTitle}</Text>
-                <Image
-                    style={thumbnailStyles.image}
-                    source={this.props.imageGood}/>
             </View>
         );
     }
@@ -201,34 +176,33 @@ class ProjectCards extends Component {
         const newState = {
             lifted: false,
             direction: [null, null],
-            rejectedCards: [...this.state.rejectedCards]
+            rejectedCards: [...this.state.rejectedCards],
+            acceptedCards: [...this.state.acceptedCards]
         };
         if (response) {
-            const newAcceptedCards = [...this.state.acceptedCards];
             switch (this.state.direction[1]) {
                 case 'left':
                     if (this.state.acceptedCards[0]) {
                         newState.rejectedCards.push(this.state.acceptedCards[0]);
                     }
-                    newAcceptedCards[0] = this.currentCard;
+                    newState.acceptedCards[0] = this.currentCard;
                     break;
                 case 'middle':
                     if (this.state.acceptedCards[1]) {
                         newState.rejectedCards.push(this.state.acceptedCards[1]);
                     }
-                    newAcceptedCards[1] = this.currentCard;
+                    newState.acceptedCards[1] = this.currentCard;
                     break;
                 case 'right':
                     if (this.state.acceptedCards[2]) {
                         newState.rejectedCards.push(this.state.acceptedCards[2]);
                     }
-                    newAcceptedCards[2] = this.currentCard;
+                    newState.acceptedCards[2] = this.currentCard;
                     break;
                 default:
                     // Error
                     break;
             }
-            newState.acceptedCards = newAcceptedCards;
         } else {
             newState.rejectedCards.push(this.currentCard);
         }
@@ -236,8 +210,8 @@ class ProjectCards extends Component {
             newState.currentCardIndex = this.state.currentCardIndex + 1;
         } else {
             this.props.onEnd({
-                accepted: this.state.acceptedCards,
-                rejected: this.state.rejectedCards
+                accepted: newState.acceptedCards.filter(card => card),
+                rejected: newState.rejectedCards
             });
         }
         this.setState(newState)

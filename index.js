@@ -66,17 +66,32 @@ class ParticipatoryBudgeting extends Component {
     constructor() {
         super();
         this.getNavigator = () => null;
+        this.currentIndex = 0;
     }
 
     onVotingFinished(votes) {
-        console.warn(JSON.stringify(votes));
+        this.currentIndex++;
+        const onRetry = () => {
+            this.currentIndex++;
+            const sortedCards = _.shuffle(allCards.slice(1));
+            this.getNavigator().push({
+                component: <ProjectCards
+                    cards={sortedCards}
+                    onEnd={this.onVotingFinished.bind(this)}/>,
+                title: 'Project selection',
+                index: this.currentIndex
+            });
+        };
         this.getNavigator().push({
-            component: <BudgetSummary/>, title: 'Summary', index: 1
+            component: <BudgetSummary votes={votes}
+                                      onRetry={onRetry}/>,
+            title: 'Summary',
+            index: this.currentIndex
         });
     }
 
     render() {
-        const sortedCards = _.shuffle(allCards);
+        const sortedCards = _.shuffle(allCards.slice(1));
         return (
             <Navigator
                 initialRoute={{

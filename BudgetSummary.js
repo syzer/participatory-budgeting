@@ -3,56 +3,82 @@ import {
     StyleSheet,
     Text,
     View,
-    Image
+    Image,
+    ScrollView
 } from 'react-native'
-import Carousel from 'react-native-spring-carousel'
-import {Card} from './ProjectCards'
-import State from './State'
-import {RetryButton, ShareButton} from './Buttons'
-
-const {voted, skipped} = State.projects
+import MaterialButton from './MaterialButton';
+import ThumbnailCard from './ThumbnailCard';
 
 export default class BudgetSummary extends Component {
-    constructor(props) {
-        super(props)
-        this.width = props.width || 400
-        this.height = props.height || 300
-    }
-
-    onPressSlide(index) {
-        console.log(index)
-    }
-
     render() {
+        const acceptedCost = this.props.votes.accepted.reduce((prevVal, card) => prevVal + card.cost, 0);
+        const rejectedCost = this.props.votes.rejected.reduce((prevVal, card) => prevVal + card.cost, 0);
         return (
-            <View style={styles.container}>
-                <Carousel
-                    width={this.width}
-                    height={this.height}
-                    pagerColor="#000"
-                    activePagerColor="#ff0000"
-                    pagerSize={10}
-                    pagerOffset={10}
-                    pagerMargin={2}
-                    speed={2000}
-                    onPress={this.onPressSlide}
-                >
-                    {voted.map(card =>
-                        <Card key={card.id} outcome="good" {...card}/>
-                    ).concat(skipped.map(card =>
-                        <Card key={card.id} image={card.image} {...card}/>
-                    ))}
-                </Carousel>
-                <RetryButton/>
-                <ShareButton/>
+            <View style={styles.budgetContainer}>
+                <View>
+                    <Text style={styles.rowLabel}>Selected Projects</Text>
+                    <Text style={styles.rowSubLabel}>
+                        Total cost:
+                        USD$ {acceptedCost}
+                    </Text>
+                    <ScrollView horizontal={true}>
+                        {this.props.votes.accepted.map(card =>
+                            <ThumbnailCard {...card}
+                                           containerStyle={styles.thumbnailCard}
+                                           imageStyle={styles.thumbnailImage}
+                                           key={card.id}/>)}
+                    </ScrollView>
+                </View>
+                <View>
+                    <Text style={styles.rowLabel}>Rejected Projects</Text>
+                    <Text style={styles.rowSubLabel}>
+                        Total savings: USD$ {rejectedCost}
+                    </Text>
+                    <ScrollView horizontal={true}>
+                        {this.props.votes.rejected.map(card =>
+                            <ThumbnailCard badImage={true}
+                                           containerStyle={styles.thumbnailCard}
+                                           imageStyle={styles.thumbnailImage}
+                                           {...card} key={card.id}/>)}
+                    </ScrollView>
+                </View>
+                <View style={styles.actionRow}>
+                    <MaterialButton onPress={this.props.onRetry}
+                                    text="SHOW TOP PROJECTS"/>
+                    <MaterialButton onPress={this.props.onRetry}
+                                    text="TRY AGAIN"/>
+                </View>
             </View>
-        )
+        );
     }
 }
 
 const styles = StyleSheet.create({
-    container: {
+    budgetContainer: {
         flex: 1,
-        alignItems: 'center',
+        padding: 16,
+        justifyContent: 'space-between'
     },
-})
+    rowLabel: {
+        fontSize: 24,
+        lineHeight: 30
+    },
+    rowSubLabel: {
+        fontSize: 20,
+        lineHeight: 20,
+        fontWeight: '700'
+    },
+    actionRow: {
+        flexDirection: 'row',
+        justifyContent: 'flex-end'
+    },
+    thumbnailCard: {
+        flex: 0,
+        padding: 8
+    },
+    thumbnailImage: {
+        height: 128,
+        width: 128,
+        alignSelf: 'center'
+    }
+});
