@@ -48,7 +48,7 @@ class Card extends Component {
     render() {
         const outerStyles = [cardStyles.card];
         if (this.props.isLifted) {
-            switch (this.props.dragDirection) {
+            switch (this.props.dragDirection[0]) {
                 case 'up':
                     outerStyles.push(cardStyles.liftedUp);
                     break;
@@ -60,7 +60,7 @@ class Card extends Component {
             }
         }
         let imageSrc = this.props.imageGood;
-        if (this.props.isLifted && this.props.dragDirection == 'up') {
+        if (this.props.isLifted && this.props.dragDirection[0] == 'up') {
             imageSrc = this.props.image;
         }
         return (
@@ -73,6 +73,32 @@ class Card extends Component {
                 <Text style={cardStyles.description}>
                     {this.props.description}
                 </Text>
+            </View>
+        );
+    }
+}
+
+const thumbnailStyles = StyleSheet.create({
+    container: {
+        flex: 1,
+        padding: 8
+    },
+    image: {
+        flex: 1,
+        height: 60,
+        width: 60,
+        alignSelf: 'center'
+    }
+});
+
+class ThumbnailCard extends Component {
+    render() {
+        return (
+            <View style={thumbnailStyles.container}>
+                <Text>{this.props.shortTitle}</Text>
+                <Image
+                    style={thumbnailStyles.image}
+                    source={this.props.imageGood}/>
             </View>
         );
     }
@@ -92,6 +118,8 @@ const allCards = [
     {
         id: 0,
         title: 'Scholarships for high education',
+        shortTitle: 'Scholarships',
+        cost: 40000,
         description: 'We will use $40,000 USD to provide scholarships to young adults of the neighbourhood, so they can have access to higher education and better job opportunities. In return, the young adults will give back to the neighbourhood social work hours.',
         image: require('./img/EducationProjectBefore.jpg'),
         imageGood: require('./img/EducationProjectAfter.jpg'),
@@ -99,6 +127,8 @@ const allCards = [
     {
         id: 1,
         title: 'A football field for our kids',
+        shortTitle: 'Football',
+        cost: 40000,
         description: 'We will use $40,000 USD to build a football field in the neighbourhood so our kids have a safe space to play.',
         image: require('./img/FootballProjectBefore.jpg'),
         imageGood: require('./img/FootballProjectAfter.jpg'),
@@ -106,6 +136,8 @@ const allCards = [
     {
         id: 2,
         title: 'A healthcare programme for the elderly',
+        shortTitle: 'Healthcare',
+        cost: 20000,
         description: 'We will use $20,000 USD to build a healthcare programme for the elderly.',
         image: require('./img/HealthProjectBefore.jpg'),
         imageGood: require('./img/HealthProjectAfter.jpg'),
@@ -113,6 +145,8 @@ const allCards = [
     {
         id: 3,
         title: 'Improve the household conditions',
+        shortTitle: 'Houses',
+        cost: 80000,
         description: 'We will use $80,000 USD to improve the household conditions of the neighbourhood.',
         image: require('./img/HousingProjectBefore.jpg'),
         imageGood: require('./img/HousingProjectAfter.jpg'),
@@ -120,6 +154,8 @@ const allCards = [
     {
         id: 4,
         title: 'Building better roads for pedestrians',
+        shortTitle: 'Roads',
+        cost: 30000,
         description: 'We will use $30,000 to build a road for pedestrians.',
         image: require('./img/RoadProjectBefore.jpg'),
         imageGood: require('./img/RoadProjectAfter.jpg'),
@@ -132,12 +168,13 @@ export default class ProjectCards extends Component {
     constructor(props) {
         super(props);
         this.state = {
-            currentCardIndex: 4,
+            currentCardIndex: 0,
             pan: new Animated.ValueXY(),
             lifted: false,
-            direction: null
+            direction: [null, null],
+            acceptedCards: [null, null, null],
+            totalCost: 0
         };
-        this.cardRemoved = this.cardRemoved.bind(this);
         this.isTransitioning = false;
     }
 
@@ -153,73 +190,118 @@ export default class ProjectCards extends Component {
                 dx: this.state.pan.x,
                 dy: this.state.pan.y
             }], {
-                listener: (_, gesture) => {
+                listener: (evt, gesture) => {
+                    const directions = [null, null];
+                    const newState = {
+                        direction: directions
+                    };
                     if (gesture.dy > 100) {
-                        this.setState({
-                            direction: 'down'
-                        });
+                        directions[0] = 'down';
                     } else if (gesture.dy < -100) {
-                        this.setState({
-                            direction: 'up'
-                        });
+                        directions[0] = 'up'
                     } else {
-                        this.setState({
-                            direction: null
-                        });
+                        directions[0] = null;
                     }
+                    if (gesture.dx > 70) {
+                        directions[1] = 'right';
+                    } else if (gesture.dx < -70) {
+                        directions[1] = 'left';
+                    } else {
+                        directions[1] = 'middle';
+                    }
+                    let totalCost = this.state.acceptedCards.reduce(
+                        (prevVal, card) => card ? prevVal + card.cost : prevVal,
+                        0);
+                    if (directions[0] == 'down') {
+                        totalCost += allCards[this.state.currentCardIndex].cost;
+                        if (directions[1] == 'left' && this.state.acceptedCards[0]) {
+                            totalCost -= this.state.acceptedCards[0].cost;
+                        } else if (directions[1] == 'middle' && this.state.acceptedCards[1]) {
+                            totalCost -= this.state.acceptedCards[1].cost;
+                        } else if (directions[1] == 'right' && this.state.acceptedCards[2]) {
+                            totalCost -= this.state.acceptedCards[2].cost;
+                        }
+                    }
+                    newState.totalCost = totalCost;
+                    this.setState(newState);
                 }
             }),
-            onPanResponderRelease: (e, gesture) => {
-                const nextCard = this.state.direction == 'up';
+            onPanResponderRelease: () => {
                 this.isTransitioning = true;
                 Animated.spring(
                     this.state.pan,
                     {toValue: {x: 0, y: 0}, velocity: 5, bounciness: 0}
                 ).start(() => {
                     this.isTransitioning = false;
-                    if (nextCard) {
-                        this.setState({
-                            lifted: false,
-                            direction: null,
-                            currentCardIndex: (this.state.currentCardIndex + 1) % 5
-                        });
-                    } else {
-                        this.setState({
-                            lifted: false,
-                            direction: null
-                        })
+                    switch (this.state.direction[0]) {
+                        case 'up':
+                            this.handleResponse(false);
+                            break;
+                        case 'down':
+                            this.handleResponse(true);
+                            break;
+                        default:
+                            this.setState({
+                                lifted: false,
+                                direction: [null, null]
+                            });
+                            break;
                     }
-                })
+                });
             }
         });
     }
 
-    handleYup(card) {
-        console.log("yup", card)
-        State.projects.voted.push(card)
-    }
-
-    handleNope(card) {
-        console.log("nope", card)
-        State.projects.skipped.push(card)
-    }
-
-    cardRemoved(index) {
-        console.log(`The index is ${index}`)
-
-        let cardsInDeck = 5 - index - 1
-        if (!cardsInDeck) {
-            if (!this.state.outOfCards) {
-                this.setState({
-                    cards: this.state.cards,
-                    outOfCards: true
-                })
+    handleResponse(response) {
+        const newState = {
+            lifted: false,
+            direction: [null, null]
+        };
+        if (response) {
+            const newAcceptedCards = [...this.state.acceptedCards];
+            switch (this.state.direction[1]) {
+                case 'left':
+                    newAcceptedCards[0] = allCards[this.state.currentCardIndex];
+                    break;
+                case 'middle':
+                    newAcceptedCards[1] = allCards[this.state.currentCardIndex];
+                    break;
+                case 'right':
+                    newAcceptedCards[2] = allCards[this.state.currentCardIndex];
+                    break;
+                default:
+                    // Error
+                    break;
             }
-            Actions.outcome()
+            newState.acceptedCards = newAcceptedCards;
         }
+        if (this.state.currentCardIndex < allCards.length - 1) {
+            newState.currentCardIndex = this.state.currentCardIndex + 1;
+        }
+        this.setState(newState)
     }
 
     render() {
+        const dropZoneStyles = [
+            [styles.dropZone],
+            [styles.dropZone],
+            [styles.dropZone]
+        ];
+        if (this.state.direction[0] == 'down') {
+            switch (this.state.direction[1]) {
+                case 'left':
+                    dropZoneStyles[0].push(styles.dropZoneAccept);
+                    break;
+                case 'right':
+                    dropZoneStyles[2].push(styles.dropZoneAccept);
+                    break;
+                case 'middle':
+                    dropZoneStyles[1].push(styles.dropZoneAccept);
+                    break;
+                default:
+                    break;
+            }
+        }
         return (
             <View style={styles.projectContainer}>
                 <View style={{flex: 1}}/>
@@ -231,13 +313,30 @@ export default class ProjectCards extends Component {
                           dragDirection={this.state.direction}/>
                 </Animated.View>
                 <View style={{flex: 1}}/>
-                <Text style={styles.selectedLabel}>
-                    Selected projects
-                </Text>
+                <View style={styles.dropZoneHeader}>
+                    <Text style={styles.selectedLabel}>
+                        Selected projects
+                    </Text>
+                    <Text style={styles.costLabel}>
+                        Cost: USD${this.state.totalCost}
+                    </Text>
+                </View>
                 <View style={styles.dropContainer}>
-                    <View style={styles.dropZone}></View>
-                    <View style={styles.dropZone}></View>
-                    <View style={styles.dropZone}></View>
+                    <View style={dropZoneStyles[0]}>
+                        {this.state.acceptedCards[0]
+                            ?
+                            <ThumbnailCard {...this.state.acceptedCards[0]}/> : null}
+                    </View>
+                    <View style={dropZoneStyles[1]}>
+                        {this.state.acceptedCards[1]
+                            ?
+                            <ThumbnailCard {...this.state.acceptedCards[1]}/> : null}
+                    </View>
+                    <View style={dropZoneStyles[2]}>
+                        {this.state.acceptedCards[2]
+                            ?
+                            <ThumbnailCard {...this.state.acceptedCards[2]}/> : null}
+                    </View>
                 </View>
             </View>);
     }
@@ -260,17 +359,28 @@ const styles = StyleSheet.create({
         paddingBottom: 8
     },
     dropZone: {
-        borderWidth: 1,
+        borderWidth: 4,
         borderColor: 'black',
         flex: 1
     },
+    dropZoneAccept: {
+        borderColor: '#8BC34A',
+        borderWidth: 4
+    },
+    dropZoneHeader: {
+        flexDirection: 'row',
+        alignSelf: 'flex-start'
+    },
     selectedLabel: {
-        alignSelf: 'flex-start',
         fontSize: 16,
+        flex: 1
+    },
+    costLabel: {
+        fontSize: 16
     },
     noMoreCards: {
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
     }
-})
+});
