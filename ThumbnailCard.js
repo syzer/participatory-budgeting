@@ -25,7 +25,7 @@ const thumbnailStyles = StyleSheet.create({
 
 class ThumbnailCard extends Component {
     render() {
-        const image = this.props.badImage ? this.props.image : this.props.imageGood
+        const image = this.props.badImage ? this.props.imageBad : this.props.imageGood
         const containerStyle = this.props.containerStyle ? this.props.containerStyle : thumbnailStyles.container
         const imageStyle = this.props.imageStyle ? this.props.imageStyle : thumbnailStyles.image
         return (
