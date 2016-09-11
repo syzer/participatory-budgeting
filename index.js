@@ -10,22 +10,90 @@ import {
 } from 'react-native'
 import ProjectCards from './ProjectCards'
 import BudgetSummary from './BudgetSummary'
+import _ from 'lodash';
 
-const routes = [
-    {component: <ProjectCards/>, title: 'Project selection', index: 0},
-    {component: <BudgetSummary/>, title: 'Summary', index: 1}
+const allCards = [
+    {
+        id: 0,
+        title: 'Scholarships for high education',
+        shortTitle: 'Scholarships',
+        cost: 40000,
+        description: 'We will use $40,000 USD to provide scholarships to young adults of the neighbourhood, so they can have access to higher education and better job opportunities. In return, the young adults will give back to the neighbourhood social work hours.',
+        image: require('./img/EducationProjectBefore.jpg'),
+        imageGood: require('./img/EducationProjectAfter.jpg'),
+    },
+    {
+        id: 1,
+        title: 'A football field for our kids',
+        shortTitle: 'Football',
+        cost: 40000,
+        description: 'We will use $40,000 USD to build a football field in the neighbourhood so our kids have a safe space to play.',
+        image: require('./img/FootballProjectBefore.jpg'),
+        imageGood: require('./img/FootballProjectAfter.jpg'),
+    },
+    {
+        id: 2,
+        title: 'A healthcare programme for the elderly',
+        shortTitle: 'Healthcare',
+        cost: 20000,
+        description: 'We will use $20,000 USD to build a healthcare programme for the elderly.',
+        image: require('./img/HealthProjectBefore.jpg'),
+        imageGood: require('./img/HealthProjectAfter.jpg'),
+    },
+    {
+        id: 3,
+        title: 'Improve the household conditions',
+        shortTitle: 'Houses',
+        cost: 80000,
+        description: 'We will use $80,000 USD to improve the household conditions of the neighbourhood.',
+        image: require('./img/HousingProjectBefore.jpg'),
+        imageGood: require('./img/HousingProjectAfter.jpg'),
+    },
+    {
+        id: 4,
+        title: 'Building better roads for pedestrians',
+        shortTitle: 'Roads',
+        cost: 30000,
+        description: 'We will use $30,000 to build a road for pedestrians.',
+        image: require('./img/RoadProjectBefore.jpg'),
+        imageGood: require('./img/RoadProjectAfter.jpg'),
+    },
 ];
 
+
 class ParticipatoryBudgeting extends Component {
+
+    constructor() {
+        super();
+        this.getNavigator = () => null;
+    }
+
+    onVotingFinished(votes) {
+        console.warn(JSON.stringify(votes));
+        this.getNavigator().push({
+            component: <BudgetSummary/>, title: 'Summary', index: 1
+        });
+    }
+
     render() {
+        const sortedCards = _.shuffle(allCards);
         return (
             <Navigator
-                initialRoute={routes[0]}
-                initialRouteStack={routes}
+                initialRoute={{
+                    component: <ProjectCards
+                        cards={sortedCards}
+                        onEnd={this.onVotingFinished.bind(this)}/>,
+                    title: 'Project selection',
+                    index: 0
+                }}
                 renderScene={(route, navigator) => {
-                    return (<View style={styles.mainContainer}>
-                        {route.component}
-                    </View>);
+                    this.getNavigator = () => {
+                        return navigator;
+                    };
+                    return (
+                        <View style={styles.mainContainer}>
+                            {route.component}
+                        </View>);
                 }}
                 navigationBar={
                     <Navigator.NavigationBar

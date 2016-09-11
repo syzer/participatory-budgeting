@@ -7,7 +7,6 @@ import {
     Animated,
     PanResponder
 } from 'react-native'
-import State from './State'
 
 const cardStyles = {
     card: {
@@ -25,7 +24,7 @@ const cardStyles = {
     },
     title: {
         padding: 16,
-        fontSize: 24,
+        fontSize: 34,
         lineHeight: 40,
         fontWeight: '700'
     },
@@ -104,66 +103,7 @@ class ThumbnailCard extends Component {
     }
 }
 
-class NoMoreCards extends Component {
-    render() {
-        return (
-            <View style={styles.noMoreCards}>
-                <Text>No more cards</Text>
-            </View>
-        )
-    }
-}
-
-const allCards = [
-    {
-        id: 0,
-        title: 'Scholarships for high education',
-        shortTitle: 'Scholarships',
-        cost: 40000,
-        description: 'We will use $40,000 USD to provide scholarships to young adults of the neighbourhood, so they can have access to higher education and better job opportunities. In return, the young adults will give back to the neighbourhood social work hours.',
-        image: require('./img/EducationProjectBefore.jpg'),
-        imageGood: require('./img/EducationProjectAfter.jpg'),
-    },
-    {
-        id: 1,
-        title: 'A football field for our kids',
-        shortTitle: 'Football',
-        cost: 40000,
-        description: 'We will use $40,000 USD to build a football field in the neighbourhood so our kids have a safe space to play.',
-        image: require('./img/FootballProjectBefore.jpg'),
-        imageGood: require('./img/FootballProjectAfter.jpg'),
-    },
-    {
-        id: 2,
-        title: 'A healthcare programme for the elderly',
-        shortTitle: 'Healthcare',
-        cost: 20000,
-        description: 'We will use $20,000 USD to build a healthcare programme for the elderly.',
-        image: require('./img/HealthProjectBefore.jpg'),
-        imageGood: require('./img/HealthProjectAfter.jpg'),
-    },
-    {
-        id: 3,
-        title: 'Improve the household conditions',
-        shortTitle: 'Houses',
-        cost: 80000,
-        description: 'We will use $80,000 USD to improve the household conditions of the neighbourhood.',
-        image: require('./img/HousingProjectBefore.jpg'),
-        imageGood: require('./img/HousingProjectAfter.jpg'),
-    },
-    {
-        id: 4,
-        title: 'Building better roads for pedestrians',
-        shortTitle: 'Roads',
-        cost: 30000,
-        description: 'We will use $30,000 to build a road for pedestrians.',
-        image: require('./img/RoadProjectBefore.jpg'),
-        imageGood: require('./img/RoadProjectAfter.jpg'),
-    },
-];
-
-export {Card, NoMoreCards}
-export default class ProjectCards extends Component {
+class ProjectCards extends Component {
 
     constructor(props) {
         super(props);
@@ -173,6 +113,7 @@ export default class ProjectCards extends Component {
             lifted: false,
             direction: [null, null],
             acceptedCards: [null, null, null],
+            rejectedCards: [],
             totalCost: 0
         };
         this.isTransitioning = false;
@@ -213,7 +154,7 @@ export default class ProjectCards extends Component {
                         (prevVal, card) => card ? prevVal + card.cost : prevVal,
                         0);
                     if (directions[0] == 'down') {
-                        totalCost += allCards[this.state.currentCardIndex].cost;
+                        totalCost += this.currentCard.cost;
                         if (directions[1] == 'left' && this.state.acceptedCards[0]) {
                             totalCost -= this.state.acceptedCards[0].cost;
                         } else if (directions[1] == 'middle' && this.state.acceptedCards[1]) {
@@ -252,31 +193,52 @@ export default class ProjectCards extends Component {
         });
     }
 
+    get currentCard() {
+        return this.props.cards[this.state.currentCardIndex];
+    }
+
     handleResponse(response) {
         const newState = {
             lifted: false,
-            direction: [null, null]
+            direction: [null, null],
+            rejectedCards: [...this.state.rejectedCards]
         };
         if (response) {
             const newAcceptedCards = [...this.state.acceptedCards];
             switch (this.state.direction[1]) {
                 case 'left':
-                    newAcceptedCards[0] = allCards[this.state.currentCardIndex];
+                    if (this.state.acceptedCards[0]) {
+                        newState.rejectedCards.push(this.state.acceptedCards[0]);
+                    }
+                    newAcceptedCards[0] = this.currentCard;
                     break;
                 case 'middle':
-                    newAcceptedCards[1] = allCards[this.state.currentCardIndex];
+                    if (this.state.acceptedCards[1]) {
+                        newState.rejectedCards.push(this.state.acceptedCards[1]);
+                    }
+                    newAcceptedCards[1] = this.currentCard;
                     break;
                 case 'right':
-                    newAcceptedCards[2] = allCards[this.state.currentCardIndex];
+                    if (this.state.acceptedCards[2]) {
+                        newState.rejectedCards.push(this.state.acceptedCards[2]);
+                    }
+                    newAcceptedCards[2] = this.currentCard;
                     break;
                 default:
                     // Error
                     break;
             }
             newState.acceptedCards = newAcceptedCards;
+        } else {
+            newState.rejectedCards.push(this.currentCard);
         }
-        if (this.state.currentCardIndex < allCards.length - 1) {
+        if (this.state.currentCardIndex < this.props.cards.length - 1) {
             newState.currentCardIndex = this.state.currentCardIndex + 1;
+        } else {
+            this.props.onEnd({
+                accepted: this.state.acceptedCards,
+                rejected: this.state.rejectedCards
+            });
         }
         this.setState(newState)
     }
@@ -304,11 +266,16 @@ export default class ProjectCards extends Component {
         }
         return (
             <View style={styles.projectContainer}>
+                <View style={styles.costHeader}>
+                    <Text style={styles.costLabel}>
+                        Expected cost: USD${this.state.totalCost}
+                    </Text>
+                </View>
                 <View style={{flex: 1}}/>
                 <Animated.View
                     {...this.panResponder.panHandlers}
                     style={this.state.pan.getLayout()}>
-                    <Card {...allCards[this.state.currentCardIndex]}
+                    <Card {...this.currentCard}
                           isLifted={this.state.lifted}
                           dragDirection={this.state.direction}/>
                 </Animated.View>
@@ -316,9 +283,6 @@ export default class ProjectCards extends Component {
                 <View style={styles.dropZoneHeader}>
                     <Text style={styles.selectedLabel}>
                         Selected projects
-                    </Text>
-                    <Text style={styles.costLabel}>
-                        Cost: USD${this.state.totalCost}
                     </Text>
                 </View>
                 <View style={styles.dropContainer}>
@@ -372,15 +336,17 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start'
     },
     selectedLabel: {
-        fontSize: 16,
+        fontSize: 24,
         flex: 1
     },
-    costLabel: {
-        fontSize: 16
+    costHeader: {
+        flexDirection: 'row',
+        alignSelf: 'stretch',
+        justifyContent: 'flex-end'
     },
-    noMoreCards: {
-        flex: 1,
-        justifyContent: 'center',
-        alignItems: 'center',
+    costLabel: {
+        fontSize: 24
     }
 });
+
+export default ProjectCards;
