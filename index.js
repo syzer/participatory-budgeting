@@ -102,9 +102,7 @@ class ParticipatoryBudgeting extends Component {
                     index: 0
                 }}
                 renderScene={(route, navigator) => {
-                    this.getNavigator = () => {
-                        return navigator;
-                    };
+                    this.getNavigator = () => navigator
                     return (
                         <View style={styles.mainContainer}>
                             {route.component}
