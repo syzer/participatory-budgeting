@@ -1,4 +1,4 @@
-import React, {Component} from "react";
+import React, {Component} from "react"
 import {
     StyleSheet,
     Text,
@@ -6,8 +6,8 @@ import {
     Image,
     Animated,
     PanResponder
-} from "react-native";
-import ThumbnailCard from "./ThumbnailCard";
+} from "react-native"
+import ThumbnailCard from "./ThumbnailCard"
 
 const cardStyles = {
     card: {
@@ -43,26 +43,26 @@ const cardStyles = {
         fontSize: 14,
         lineHeight: 20,
     }
-};
+}
 
 export class Card extends Component {
     render() {
-        const outerStyles = [cardStyles.card];
+        const outerStyles = [cardStyles.card]
         if (this.props.isLifted) {
             switch (this.props.dragDirection[0]) {
                 case 'up':
-                    outerStyles.push(cardStyles.liftedUp);
-                    break;
+                    outerStyles.push(cardStyles.liftedUp)
+                    break
                 case 'down':
-                    outerStyles.push(cardStyles.liftedDown);
-                    break;
+                    outerStyles.push(cardStyles.liftedDown)
+                    break
                 default:
-                    break;
+                    break
             }
         }
-        let imageSrc = this.props.imageGood;
+        let imageSrc = this.props.imageGood
         if (this.props.isLifted && this.props.dragDirection[0] == 'up') {
-            imageSrc = this.props.image;
+            imageSrc = this.props.image
         }
         return (
             <View style={outerStyles}>
@@ -75,14 +75,14 @@ export class Card extends Component {
                     {this.props.description}
                 </Text>
             </View>
-        );
+        )
     }
 }
 
 class ProjectCards extends Component {
 
     constructor(props) {
-        super(props);
+        super(props)
         this.state = {
             currentCardIndex: 0,
             pan: new Animated.ValueXY(),
@@ -91,8 +91,8 @@ class ProjectCards extends Component {
             acceptedCards: [null, null, null],
             rejectedCards: [],
             totalCost: 0
-        };
-        this.isTransitioning = false;
+        }
+        this.isTransitioning = false
     }
 
     componentWillMount() {
@@ -108,69 +108,69 @@ class ProjectCards extends Component {
                 dy: this.state.pan.y
             }], {
                 listener: (evt, gesture) => {
-                    const directions = [null, null];
+                    const directions = [null, null]
                     const newState = {
                         direction: directions
-                    };
+                    }
                     if (gesture.dy > 100) {
-                        directions[0] = 'down';
+                        directions[0] = 'down'
                     } else if (gesture.dy < -100) {
                         directions[0] = 'up'
                     } else {
-                        directions[0] = null;
+                        directions[0] = null
                     }
                     if (gesture.dx > 70) {
-                        directions[1] = 'right';
+                        directions[1] = 'right'
                     } else if (gesture.dx < -70) {
-                        directions[1] = 'left';
+                        directions[1] = 'left'
                     } else {
-                        directions[1] = 'middle';
+                        directions[1] = 'middle'
                     }
                     let totalCost = this.state.acceptedCards.reduce(
-                        (prevVal, card) => card ? prevVal + card.cost : prevVal,
-                        0);
+                        (prevVal, card) =>
+                            card ? prevVal + card.cost : prevVal, 0)
                     if (directions[0] == 'down') {
-                        totalCost += this.currentCard.cost;
+                        totalCost += this.currentCard.cost
                         if (directions[1] == 'left' && this.state.acceptedCards[0]) {
-                            totalCost -= this.state.acceptedCards[0].cost;
+                            totalCost -= this.state.acceptedCards[0].cost
                         } else if (directions[1] == 'middle' && this.state.acceptedCards[1]) {
-                            totalCost -= this.state.acceptedCards[1].cost;
+                            totalCost -= this.state.acceptedCards[1].cost
                         } else if (directions[1] == 'right' && this.state.acceptedCards[2]) {
-                            totalCost -= this.state.acceptedCards[2].cost;
+                            totalCost -= this.state.acceptedCards[2].cost
                         }
                     }
-                    newState.totalCost = totalCost;
-                    this.setState(newState);
+                    newState.totalCost = totalCost
+                    this.setState(newState)
                 }
             }),
             onPanResponderRelease: () => {
-                this.isTransitioning = true;
+                this.isTransitioning = true
                 Animated.spring(
                     this.state.pan,
                     {toValue: {x: 0, y: 0}, velocity: 5, bounciness: 0}
                 ).start(() => {
-                    this.isTransitioning = false;
+                    this.isTransitioning = false
                     switch (this.state.direction[0]) {
                         case 'up':
-                            this.handleResponse(false);
-                            break;
+                            this.handleResponse(false)
+                            break
                         case 'down':
-                            this.handleResponse(true);
-                            break;
+                            this.handleResponse(true)
+                            break
                         default:
                             this.setState({
                                 lifted: false,
                                 direction: [null, null]
-                            });
-                            break;
+                            })
+                            break
                     }
-                });
+                })
             }
-        });
+        })
     }
 
     get currentCard() {
-        return this.props.cards[this.state.currentCardIndex];
+        return this.props.cards[this.state.currentCardIndex]
     }
 
     handleResponse(response) {
@@ -179,41 +179,41 @@ class ProjectCards extends Component {
             direction: [null, null],
             rejectedCards: [...this.state.rejectedCards],
             acceptedCards: [...this.state.acceptedCards]
-        };
+        }
         if (response) {
             switch (this.state.direction[1]) {
                 case 'left':
                     if (this.state.acceptedCards[0]) {
-                        newState.rejectedCards.push(this.state.acceptedCards[0]);
+                        newState.rejectedCards.push(this.state.acceptedCards[0])
                     }
-                    newState.acceptedCards[0] = this.currentCard;
-                    break;
+                    newState.acceptedCards[0] = this.currentCard
+                    break
                 case 'middle':
                     if (this.state.acceptedCards[1]) {
-                        newState.rejectedCards.push(this.state.acceptedCards[1]);
+                        newState.rejectedCards.push(this.state.acceptedCards[1])
                     }
-                    newState.acceptedCards[1] = this.currentCard;
-                    break;
+                    newState.acceptedCards[1] = this.currentCard
+                    break
                 case 'right':
                     if (this.state.acceptedCards[2]) {
-                        newState.rejectedCards.push(this.state.acceptedCards[2]);
+                        newState.rejectedCards.push(this.state.acceptedCards[2])
                     }
-                    newState.acceptedCards[2] = this.currentCard;
-                    break;
+                    newState.acceptedCards[2] = this.currentCard
+                    break
                 default:
                     // Error
-                    break;
+                    break
             }
         } else {
-            newState.rejectedCards.push(this.currentCard);
+            newState.rejectedCards.push(this.currentCard)
         }
         if (this.state.currentCardIndex < this.props.cards.length - 1) {
-            newState.currentCardIndex = this.state.currentCardIndex + 1;
+            newState.currentCardIndex = this.state.currentCardIndex + 1
         } else {
             this.props.onEnd({
                 accepted: newState.acceptedCards.filter(card => card),
                 rejected: newState.rejectedCards
-            });
+            })
         }
         this.setState(newState)
     }
@@ -223,20 +223,20 @@ class ProjectCards extends Component {
             [styles.dropZone],
             [styles.dropZone],
             [styles.dropZone]
-        ];
+        ]
         if (this.state.direction[0] == 'down') {
             switch (this.state.direction[1]) {
                 case 'left':
-                    dropZoneStyles[0].push(styles.dropZoneAccept);
-                    break;
+                    dropZoneStyles[0].push(styles.dropZoneAccept)
+                    break
                 case 'right':
-                    dropZoneStyles[2].push(styles.dropZoneAccept);
-                    break;
+                    dropZoneStyles[2].push(styles.dropZoneAccept)
+                    break
                 case 'middle':
-                    dropZoneStyles[1].push(styles.dropZoneAccept);
-                    break;
+                    dropZoneStyles[1].push(styles.dropZoneAccept)
+                    break
                 default:
-                    break;
+                    break
             }
         }
         return (
@@ -277,7 +277,7 @@ class ProjectCards extends Component {
                             <ThumbnailCard {...this.state.acceptedCards[2]}/> : null}
                     </View>
                 </View>
-            </View>);
+            </View>)
     }
 }
 
@@ -322,6 +322,6 @@ const styles = StyleSheet.create({
     costLabel: {
         fontSize: 24
     }
-});
+})
 
-export default ProjectCards;
+export default ProjectCards
