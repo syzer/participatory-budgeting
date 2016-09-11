@@ -9,11 +9,12 @@ import {
 const thumbnailStyles = StyleSheet.create({
     container: {
         flex: 1,
-        padding: 8
+        padding: 8,
+        paddingTop: 4
     },
     image: {
-        height: 60,
-        width: 60,
+        height: 80,
+        width: 100,
         alignSelf: 'center'
     }
 });

@@ -24,9 +24,10 @@ const cardStyles = {
         backgroundColor: '#D50000'
     },
     title: {
-        padding: 16,
-        fontSize: 34,
-        lineHeight: 40,
+        padding: 14,
+        paddingTop: 0,
+        fontSize: 28,
+        lineHeight: 30,
         fontWeight: '700'
     },
     image: {
@@ -40,7 +41,7 @@ const cardStyles = {
     description: {
         padding: 16,
         fontSize: 14,
-        lineHeight: 20
+        lineHeight: 20,
     }
 };
 
