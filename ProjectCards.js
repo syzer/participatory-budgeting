@@ -9,7 +9,7 @@ import {
 } from "react-native"
 import ThumbnailCard from "./ThumbnailCard"
 
-const cardStyles = {
+const cardStyles = StyleSheet.create({
     card: {
         alignItems: 'stretch',
         borderRadius: 2,
@@ -43,7 +43,7 @@ const cardStyles = {
         fontSize: 14,
         lineHeight: 20,
     }
-}
+})
 
 export class Card extends Component {
     render() {
@@ -301,8 +301,8 @@ const styles = StyleSheet.create({
         paddingBottom: 8
     },
     dropZone: {
-        borderWidth: 4,
-        borderColor: 'black',
+        borderWidth: 1,
+        borderColor: 'gray',
         flex: 1
     },
     dropZoneAccept: {
@@ -314,7 +314,7 @@ const styles = StyleSheet.create({
         alignSelf: 'flex-start'
     },
     selectedLabel: {
-        fontSize: 24,
+        fontSize: 20,
         flex: 1
     },
     costHeader: {
