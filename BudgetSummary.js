@@ -6,13 +6,13 @@ import {
     Image,
     ScrollView
 } from 'react-native'
-import MaterialButton from './MaterialButton';
-import ThumbnailCard from './ThumbnailCard';
+import MaterialButton from './MaterialButton'
+import ThumbnailCard from './ThumbnailCard'
 
 export default class BudgetSummary extends Component {
     render() {
-        const acceptedCost = this.props.votes.accepted.reduce((prevVal, card) => prevVal + card.cost, 0);
-        const rejectedCost = this.props.votes.rejected.reduce((prevVal, card) => prevVal + card.cost, 0);
+        const acceptedCost = this.props.votes.accepted.reduce((prevVal, card) => prevVal + card.cost, 0)
+        const rejectedCost = this.props.votes.rejected.reduce((prevVal, card) => prevVal + card.cost, 0)
         return (
             <View style={styles.budgetContainer}>
                 <View>
@@ -49,7 +49,7 @@ export default class BudgetSummary extends Component {
                                     text="TRY AGAIN"/>
                 </View>
             </View>
-        );
+        )
     }
 }
 
@@ -77,8 +77,8 @@ const styles = StyleSheet.create({
         padding: 8
     },
     thumbnailImage: {
-        height: 128,
-        width: 128,
+        height: 170,
+        width: 190,
         alignSelf: 'center'
     }
-});
+})
