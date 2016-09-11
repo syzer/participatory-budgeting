@@ -17,7 +17,7 @@
                BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
                BuildableName = "ParticipatoryBudgeting.app"
                BlueprintName = "ParticipatoryBudgeting"
-               ReferencedContainer = "container:ParticipatoryBudgeting.xcodeproj">
+               ReferencedContainer = "container:Participatory Budgeting.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
          <BuildActionEntry
@@ -31,7 +31,7 @@
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
                BuildableName = "ParticipatoryBudgetingTests.xctest"
                BlueprintName = "ParticipatoryBudgetingTests"
-               ReferencedContainer = "container:ParticipatoryBudgeting.xcodeproj">
+               ReferencedContainer = "container:Participatory Budgeting.xcodeproj">
             </BuildableReference>
          </BuildActionEntry>
       </BuildActionEntries>
@@ -49,7 +49,7 @@
                BlueprintIdentifier = "00E356ED1AD99517003FC87E"
                BuildableName = "ParticipatoryBudgetingTests.xctest"
                BlueprintName = "ParticipatoryBudgetingTests"
-               ReferencedContainer = "container:ParticipatoryBudgeting.xcodeproj">
+               ReferencedContainer = "container:Participatory Budgeting.xcodeproj">
             </BuildableReference>
          </TestableReference>
       </Testables>
@@ -59,7 +59,7 @@
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "ParticipatoryBudgeting.app"
             BlueprintName = "ParticipatoryBudgeting"
-            ReferencedContainer = "container:ParticipatoryBudgeting.xcodeproj">
+            ReferencedContainer = "container:Participatory Budgeting.xcodeproj">
          </BuildableReference>
       </MacroExpansion>
       <AdditionalOptions>
@@ -82,7 +82,7 @@
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "ParticipatoryBudgeting.app"
             BlueprintName = "ParticipatoryBudgeting"
-            ReferencedContainer = "container:ParticipatoryBudgeting.xcodeproj">
+            ReferencedContainer = "container:Participatory Budgeting.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
       <AdditionalOptions>
@@ -101,7 +101,7 @@
             BlueprintIdentifier = "13B07F861A680F5B00A75B9A"
             BuildableName = "ParticipatoryBudgeting.app"
             BlueprintName = "ParticipatoryBudgeting"
-            ReferencedContainer = "container:ParticipatoryBudgeting.xcodeproj">
+            ReferencedContainer = "container:Participatory Budgeting.xcodeproj">
          </BuildableReference>
       </BuildableProductRunnable>
    </ProfileAction>
