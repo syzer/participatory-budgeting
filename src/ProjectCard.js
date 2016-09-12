@@ -14,8 +14,11 @@ const cardStyles = StyleSheet.create({
         alignItems: 'stretch',
         borderRadius: 2,
         backgroundColor: 'white',
+        borderColor: 'black',
+        // borderWidth: 1,
+        // android only
         elevation: 2,
-        width: 320
+        width: 320,
     },
     liftedDown: {
         backgroundColor: '#8BC34A'
@@ -74,7 +77,7 @@ export class Card extends Component {
                 </Text>
                 <Image style={cardStyles.image}
                        source={imageSrc}/>
-                <Text style={cardStyles.description}>
+                <Text style={cardStyles.description} ellipsizeMode={'tail'} numberOfLines={5}>
                     {this.props.description}
                 </Text>
             </View>
@@ -82,7 +85,7 @@ export class Card extends Component {
     }
 }
 
-class ProjectCards extends Component {
+class ProjectCard extends Component {
 
     constructor(props) {
         super(props)
@@ -259,9 +262,6 @@ class ProjectCards extends Component {
                 </Animated.View>
                 <View style={{flex: 1}}/>
                 <View style={styles.dropZoneHeader}>
-                    <Text style={styles.selectedLabel}>
-                        Selected projects
-                    </Text>
                 </View>
                 <View style={styles.dropContainer}>
                     <View style={dropZoneStyles[0]}>
@@ -313,18 +313,14 @@ const styles = StyleSheet.create({
         flexDirection: 'row',
         alignSelf: 'flex-start'
     },
-    selectedLabel: {
-        fontSize: 20,
-        flex: 1
-    },
     costHeader: {
         flexDirection: 'row',
         alignSelf: 'stretch',
         justifyContent: 'flex-end'
     },
     costLabel: {
-        fontSize: 24
+        fontSize: 20
     }
 })
 
-export default ProjectCards
+export default ProjectCard
