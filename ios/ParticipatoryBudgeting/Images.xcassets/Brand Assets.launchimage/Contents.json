@@ -3,15 +3,14 @@
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
-      "filename" : "Icon-App-83.5x83.5@2x-1.png",
       "minimum-system-version" : "7.0",
       "scale" : "2x"
     },
     {
       "orientation" : "portrait",
       "idiom" : "iphone",
-      "filename" : "Icon-App-83.5x83.5@2x.png",
       "minimum-system-version" : "7.0",
+      "subtype" : "retina4",
       "scale" : "2x"
     }
   ],

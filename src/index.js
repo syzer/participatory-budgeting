@@ -75,7 +75,7 @@ class ParticipatoryBudgeting extends Component {
 const styles = StyleSheet.create({
     mainContainer: {
         flex: 1,
-        paddingTop: 0
+        paddingTop: Navigator.NavigationBar.Styles.General.NavBarHeight
     }
 })
 

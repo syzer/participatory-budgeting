@@ -26,6 +26,7 @@ xcode required
 react-native run-ios
 ```
 
+`CMD+D` enables developer menu
 
 ## Android
 
@@ -63,8 +64,18 @@ than install [nurse](https://github.com/pressly/react-native-nurse)
 ```
 ./nurse -i "iPhone 6" -b "org.reactjs.native.example" -a reactnative
 ```
- 
-# Build Android
+
+
+# Build release
+
+App icons can be generated via ticons
+```
+brew install imagemagick
+npm i -g ticons
+```
+
+
+## Build Android
 
 [generate key](https://facebook.github.io/react-native/releases/0.31/docs/signed-apk-android.html)
 ```
@@ -73,8 +84,7 @@ cd android && ./gradlew installRelease
 ```
 
 
-
-# Build Ios
+## Build IOS
 
 ```
 open ios/ParticipatoryBudgeting.xcodeproj/
