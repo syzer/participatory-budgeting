@@ -13,7 +13,6 @@ const cardStyles = StyleSheet.create({
             height: 1,
             width: 0
         }
-
     },
     liftedDown: {
         backgroundColor: '#8BC34A'
