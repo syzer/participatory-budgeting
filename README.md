@@ -51,6 +51,18 @@ Share menu for live reload is avaible via
 then `Cmd+Shift+S` to shake all devices
 
 
+## Running both simulators
+
+If you got mac, xcode:
+
+```
+brew install xctool
+
+```
+than install [nurse](https://github.com/pressly/react-native-nurse)
+```
+./nurse -i "iPhone 6" -b "org.reactjs.native.example" -a reactnative
+```
  
 # Build Android
 
