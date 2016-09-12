@@ -3,13 +3,17 @@ import {StyleSheet} from "react-native"
 const cardStyles = StyleSheet.create({
     card: {
         alignItems: 'stretch',
-        borderRadius: 2,
         backgroundColor: 'white',
         borderColor: 'black',
-        // borderWidth: 1,
-        // android only
-        elevation: 2,
         width: 320,
+        shadowColor: "#000000",
+        shadowOpacity: 0.8,
+        shadowRadius: 2,
+        shadowOffset: {
+            height: 1,
+            width: 0
+        }
+
     },
     liftedDown: {
         backgroundColor: '#8BC34A'

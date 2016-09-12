@@ -8,7 +8,7 @@ import {
     StatusBar,
     Navigator
 } from 'react-native'
-import ProjectCard from './ProjectCard'
+import PickProject from './PickProject'
 import BudgetSummary from './BudgetSummary'
 import _ from 'lodash'
 import {allCards} from './State'
@@ -27,7 +27,7 @@ class ParticipatoryBudgeting extends Component {
             this.currentIndex++
             const sortedCards = _.shuffle(allCards)
             this.getNavigator().push({
-                component: <ProjectCard
+                component: <PickProject
                     cards={sortedCards}
                     onEnd={this.onVotingFinished.bind(this)}/>,
                 title: 'Project selection',
@@ -47,7 +47,7 @@ class ParticipatoryBudgeting extends Component {
         return (
             <Navigator
                 initialRoute={{
-                    component: <ProjectCard
+                    component: <PickProject
                         cards={sortedCards}
                         onEnd={this.onVotingFinished.bind(this)}/>,
                     title: 'Project selection',
