@@ -59,15 +59,16 @@ export default class BudgetSummary extends Component {
 const styles = StyleSheet.create({
     budgetContainer: {
         flex: 1,
-        padding: 16,
+        paddingLeft: 16,
+        marginTop: -10,
         justifyContent: 'space-between'
     },
     rowLabel: {
-        fontSize: 24,
+        fontSize: 22,
         lineHeight: 30
     },
     rowSubLabel: {
-        fontSize: 20,
+        fontSize: 18,
         lineHeight: 20,
         fontWeight: '700'
     },

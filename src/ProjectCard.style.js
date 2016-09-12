@@ -6,7 +6,6 @@ const cardStyles = StyleSheet.create({
         borderRadius: 2,
         backgroundColor: 'white',
         borderColor: 'black',
-        // borderWidth: 1,
         // android only
         elevation: 2,
         width: 320,
