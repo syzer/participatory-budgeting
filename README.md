@@ -4,6 +4,7 @@ Participatory Budget app done on #peacehack2016
 @ETH Zurich
 
 
+
 # Features
 
  - prepare to me amazed
@@ -12,15 +13,44 @@ Participatory Budget app done on #peacehack2016
  - images
 
 
+
 # Development
 
 To run on simulators:
 
+
+## IOS
+
+xcode required
 ```
 react-native run-ios
+```
+
+
+## Android
+
+install simulator
+and run with
+
+```
+~/Library/Android/sdk/tools/emulator -avd reactnative
+```
+
+```
+$ adb devices
+List of devices attached
+emulator-5554	device
+```
+
+```
 react-native run-android
 ```
- 
+
+Share menu for live reload is avaible via
+[Frappe](https://github.com/niftylettuce/frappe)
+then `Cmd+Shift+S` to shake all devices
+
+
  
 # Build Android
 
@@ -29,6 +59,7 @@ react-native run-android
 cd android && ./gradlew assembleRelease
 cd android && ./gradlew installRelease
 ```
+
 
 
 # Build Ios
