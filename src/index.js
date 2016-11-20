@@ -37,7 +37,7 @@ class ParticipatoryBudgeting extends Component {
         this.getNavigator().push({
             component: <BudgetSummary votes={votes}
                                       onRetry={onRetry}/>,
-            title: 'Summary',
+            title: 'Resumen',
             index: this.currentIndex
         })
     }
@@ -50,7 +50,7 @@ class ParticipatoryBudgeting extends Component {
                     component: <PickProject
                         cards={sortedCards}
                         onEnd={this.onVotingFinished.bind(this)}/>,
-                    title: 'Project selection',
+                    title: 'Selección de proyectos',
                     index: 0
                 }}
                 renderScene={(route, navigator) => {

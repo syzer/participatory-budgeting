@@ -20,9 +20,9 @@ export default class BudgetSummary extends Component {
         return (
             <View style={styles.budgetContainer}>
                 <View>
-                    <Text style={styles.rowLabel}>Selected Projects</Text>
+                    <Text style={styles.rowLabel}>Proyectos seleccionados</Text>
                     <Text style={styles.rowSubLabel}>
-                        Total cost: $ {acceptedCost}
+                        Costo total: $ {acceptedCost}
                     </Text>
                     <ScrollView horizontal={true}>
                         {this.props.votes.accepted.map(card =>
@@ -35,7 +35,7 @@ export default class BudgetSummary extends Component {
                 <View>
                     <Text style={styles.rowLabel}>Rejected Projects</Text>
                     <Text style={styles.rowSubLabel}>
-                        Total savings: $ {rejectedCost}
+                        Ahorro total: $ {rejectedCost}
                     </Text>
                     <ScrollView horizontal={true}>
                         {this.props.votes.rejected.map(card =>
@@ -47,9 +47,9 @@ export default class BudgetSummary extends Component {
                 </View>
                 <View style={styles.actionRow}>
                     <MaterialButton onPress={this.props.onRetry}
-                                    text="SHOW TOP PROJECTS"/>
+                                    text="Mostrar proyectos"/>
                     <MaterialButton onPress={this.props.onRetry}
-                                    text="TRY AGAIN"/>
+                                    text="Intentar de nuevo"/>
                 </View>
             </View>
         )
