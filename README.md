@@ -1,5 +1,7 @@
 # WAT
 
+[![Greenkeeper badge](https://badges.greenkeeper.io/syzer/participatory-budgeting.svg)](https://greenkeeper.io/)
+
 Participatory Budget app done on #peacehack2016 
 @ETH Zurich
 
